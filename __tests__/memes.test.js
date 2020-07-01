@@ -63,4 +63,14 @@ describe('meme routes', () => {
         });
       });
   });
+
+  it('deletes a meme by id with DELETE', async() => {
+    const meme = prepare(await Meme.findOne());
+
+    return await request(app)
+      .delete(`/api/v1/memes/${meme._id}`)
+      .then(res => {
+        expect(res.body).toEqual(meme);
+      });
+  });
 });

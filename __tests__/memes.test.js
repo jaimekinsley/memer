@@ -28,7 +28,18 @@ describe('meme routes', () => {
 
     return await request(app)
       .get('/api/v1/memes')
-      .then(res => {expect(res.body).toEqual(memes);
+      .then(res => {
+        expect(res.body).toEqual(memes);
+      });
+  });
+
+  it('gets a meme by id with GET', async() => {
+    const meme = prepare(await Meme.findOne());
+
+    return await request(app)
+      .get(`/api/v1/memes/${meme._id}`)
+      .then(res => {
+        expect(res.body).toEqual(meme);
       });
   });
 });

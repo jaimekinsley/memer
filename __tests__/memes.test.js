@@ -1,6 +1,7 @@
-require('../db/data-helpers');
+const { prepare } = require('../db/data-helpers');
 const request = require('supertest');
 const app = require('../lib/app');
+const Meme = require('../lib/models/Meme');
 
 describe('meme routes', () => {
   it('creates a meme with POST', () => {
@@ -19,6 +20,15 @@ describe('meme routes', () => {
           bottom: 'take my money!',
           __v:0
         });
+      });
+  });
+
+  it('gets all memes with GET', async() => {
+    const memes = prepare(await Meme.find());
+
+    return await request(app)
+      .get('/api/v1/memes')
+      .then(res => {expect(res.body).toEqual(memes);
       });
   });
 });
